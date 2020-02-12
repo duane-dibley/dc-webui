@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "jsx": "react",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "outDir": "dist",
+    "paths": {
+      "@components": ["src/common/components"],
+      "@hoc": ["src/common/hoc"],
+      "@routes": ["src/common/routes"],
+      "@store": ["src/common/store"],
+      "@styles": ["src/common/styles"],
+      "kdb": ["src/lib/kdb_4_3_0S5_22475.js"],
+      "web": ["src/lib/client_4_3_0S5_22475.js"],
+    },
+    "sourceMap": true,
+    "target": "es6",
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "include": [
+    "src/**/*"
+  ]
+}
