@@ -1,11 +1,12 @@
 import { AnyAction, Reducer } from 'redux';
 import { INIT_SERVER } from '@store';
+import { IInitDataStore } from '@store-model';
 
-const initState: IInitDataState = {
+const initState: IInitDataStore = {
   message: ''
 };
 
-const reducer: Reducer<IInitDataState, AnyAction> = (state: IInitDataState = initState, action: AnyAction) => {
+const reducer: Reducer<IInitDataStore, AnyAction> = (state: IInitDataStore = initState, action: AnyAction) => {
   switch (action.type) {
 
     case INIT_SERVER: {

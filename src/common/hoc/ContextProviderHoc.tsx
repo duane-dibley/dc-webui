@@ -1,5 +1,7 @@
 import PropTypes, { Requireable } from 'prop-types';
 import React, { ReactNode } from 'react';
+//
+import { IContext } from '@misc';
 
 export default class ContextProviderHoc extends React.Component<{ context: IContext }> {
   static childContextTypes: { insertCss: Requireable<(...args: void[]) => void> } = {

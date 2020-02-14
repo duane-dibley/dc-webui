@@ -7,7 +7,9 @@ import serialize from 'serialize-javascript';
 import { ServerStyleSheets } from '@material-ui/core/styles';
 //
 import App from '@common';
+import { IContext, IIsoStyle } from '@misc';
 import AppReducer, { INIT_SERVER } from '@store';
+import { IStore } from '@store-model';
 
 /* * * * * * * * * * Application * * * * * * * * * */
 
@@ -61,7 +63,7 @@ const store: Store<IStore, AnyAction> = createStore(AppReducer);
 store.dispatch({ type: INIT_SERVER, message: 'Init message from server' });
 
 function route(url: string): JSX.Element {
-  return sheets.collect(<App context={context} url={url} />);
+  return sheets.collect(<App context={context} store={store} url={url} />);
 }
 
 function insertCss(...styles: IIsoStyle[]): void {
@@ -95,3 +97,26 @@ function htmlTemplate(el: string, theme: string, initState: IStore, /* css: Set<
         </html>
     `;
 }
+
+/* * * * * * * * * * Non SSR * * * * * * * * * */
+
+// function htmlTemplate(el: string, theme: string, /* initState: IStore, css: Set<string> */): string {
+//   return `
+//         <!DOCTYPE html>
+//         <html>
+
+//           <head>
+//             <meta charset="utf-8">
+//             <title>React SSR</title>
+//             <style id="jss-server-side">${theme}</style>
+//             <style type="text/css">${[...css].join('')}</style>
+//           </head>
+
+//           <body>
+//             <div id="appdiv"></div>
+//             <script src="public/client.bundle.js"></script>
+//           </body>
+
+//         </html>
+//     `;
+// }

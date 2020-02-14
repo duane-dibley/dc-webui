@@ -7,7 +7,9 @@ import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
 import App from '@common';
 import rootSaga from '@sagas';
 import AppReducer, { INIT_CLIENT } from '@store';
-import { Client } from '@web';
+import { IStore } from '@store-model';
+import { IContext, IIsoStyle } from '@misc';
+import { Client, IWebClient } from '@web';
 
 const host: string = 'dev1';
 const port: number = 19400;
@@ -17,16 +19,18 @@ const useBinary: boolean = false;
 const client: IWebClient = new Client({ host, port, secure, fromURL }, useBinary);
 
 // Grab the state from a global variable injected into the server-generated HTML
-const initData: IStore = window.INIT_DATA;
+const initData: IStore = (window as any).INIT_DATA;
 // Allow the passed state to be garbage-collected
-delete window.INIT_DATA;
-// Create Redux/Saga store with initial state
+delete (window as any).INIT_DATA;
+// Create Saga middleware
 const sagaMiddleware: SagaMiddleware = createSagaMiddleware();
-// TODO - include initData
-const store: Store<IStore, AnyAction> = createStore(AppReducer, applyMiddleware(sagaMiddleware));
+// Create Redux store
+const store: Store<IStore, AnyAction> = createStore(AppReducer, initData, applyMiddleware(sagaMiddleware));
+// Run Saga
 sagaMiddleware.run(rootSaga);
+// Dispatch event to set client on store
 store.dispatch({ type: INIT_CLIENT, ...client });
-
+// Set context running through app
 const context: IContext = { insertCss };
 
 function insertCss(...styles: IIsoStyle[]): () => void {
@@ -45,7 +49,7 @@ function Main(): JSX.Element {
     }
   }, []);
 
-  return <App context={context} />;
+  return <App context={context} store={store} />;
 }
 
 hydrate(

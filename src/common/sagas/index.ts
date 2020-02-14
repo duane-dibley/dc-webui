@@ -8,8 +8,7 @@ function* loginClick(): Generator {
   );
 }
 
-function* onLoginClick(): Generator<any, any, any> {
-  console.log('saga');
+function* onLoginClick(): Generator {
   yield 1;
   //
   // return yield fetch('/login')

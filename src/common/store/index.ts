@@ -1,4 +1,6 @@
 import { combineReducers, Reducer, AnyAction } from 'redux';
+//
+import { IStore } from '@store-model';
 import app from './AppReducer';
 import initData from './InitDataReducer';
 
