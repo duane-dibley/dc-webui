@@ -1,5 +1,5 @@
 import withStyles from 'isomorphic-style-loader/withStyles';
-import React, { ChangeEvent, Component, ReactNode } from 'react';
+import React, { ChangeEvent, Component, FormEvent, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { AnyAction, Dispatch, bindActionCreators } from 'redux';
 //
@@ -26,6 +26,7 @@ class LoginComponent extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
+    // Bound actions for local state
     this.handleChange = this.onHandleChange.bind(this);
 
     this.state = {
@@ -57,7 +58,14 @@ class LoginComponent extends Component<IProps, IState> {
             Sign in
           </Typography>
           {/* <form className={Styles.form} noValidate> */}
-          <form noValidate onSubmit={(): AnyAction => actions.loginClick(state.email, state.password, state.remember)}>
+          <form noValidate
+            onSubmit={
+              (e: FormEvent): AnyAction => {
+                e.preventDefault();
+                return actions.loginClick(state.email, state.password, state.remember);
+              }
+            }
+          >
             <TextField
               variant="outlined"
               margin="normal"

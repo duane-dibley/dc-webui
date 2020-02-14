@@ -1,11 +1,12 @@
 /* * * * * * * * * * STORE * * * * * * * * * */
 interface IAppState {
-  context: IContext;
+  client?: IWebClient;
+  context?: IContext;
   url?: string;
 }
 
 interface IInitDataState {
-  message: string;
+  message?: string;
 }
 
 interface IStore {

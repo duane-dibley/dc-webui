@@ -6,5 +6,7 @@ const reducer: Reducer<IStore, AnyAction> = combineReducers({ app, initData });
 
 export default reducer;
 
-/* * * * * * * * * * Action creators * * * * * * * * * */
+/* * * * * * * * * * Action types * * * * * * * * * */
+export const INIT_CLIENT: string = 'INIT_CLIENT';
+export const INIT_SERVER: string = 'INIT_SERVER';
 export const LOGIN_CLICK: string = 'LOGIN_CLICK';

@@ -70,13 +70,15 @@ const config: Configuration = {
   },
   resolve: {
     alias: {
+      '@common': path.resolve(__dirname, 'src/common'),
       '@components': path.resolve(__dirname, 'src/common/components'),
       '@hoc': path.resolve(__dirname, 'src/common/hoc'),
       '@routes': path.resolve(__dirname, 'src/common/routes'),
+      '@sagas': path.resolve(__dirname, 'src/common/sagas'),
       '@store': path.resolve(__dirname, 'src/common/store'),
       '@styles': path.resolve(__dirname, 'src/common/styles'),
-      kdb: path.resolve(__dirname, 'src/lib/kdb_4_3_0S5_22475.js'),
-      web: path.resolve(__dirname, 'src/lib/client_4_3_0S5_22475.js'),
+      '@web': path.resolve(__dirname, 'src/lib/client_4_3_0S5_22475.js'),
+      kdb: path.resolve(__dirname, 'src/lib/kdb_4_3_0S5_22475.js')
     },
     extensions: ['.css', '.js', '.scss', '.styl', '.ts', '.tsx']
   }
@@ -97,9 +99,6 @@ const client: Configuration = {
 
 const server: Configuration = {
   entry: {
-    // TODO - client and kdb should be built into dist
-    // client: path.resolve(__dirname, 'src/lib/client_4_3_0S5_22475.js'),
-    // kdb: path.resolve(__dirname, 'src/lib/kdb_4_3_0S5_22475.js'),
     server: path.resolve(__dirname, 'src/server/index.tsx')
   },
   externals: [webpackNodeExternals()],
