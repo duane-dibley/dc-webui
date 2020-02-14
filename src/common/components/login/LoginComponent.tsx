@@ -31,26 +31,27 @@ class LoginComponent extends Component<IProps, IState> {
     this.handleChange = this.onHandleChange.bind(this);
 
     this.state = {
-      email: '',
-      password: '',
-      remember: ''
+      user: '',
+      pass: '',
+      remember: false
     };
   }
 
   private onHandleChange(evt: ChangeEvent<HTMLInputElement>): void {
     evt.stopPropagation();
+    const { state } = this;
     const { checked, name, value } = evt.currentTarget;
-    this.setState((state: IState) => Object.assign(state, { [name]: name === 'remember' ? checked : value }));
+    this.setState(Object.assign(state, { [name]: name === 'remember' ? checked : value }));
   }
 
   render(): ReactNode {
     const { state } = this;
+    const { user, pass, remember } = state;
     const { actions } = this.props;
 
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        {/* <div className={Styles.paper}> */}
         <div>
           <Avatar className={Styles.avatar}>
             <LockOutlinedIcon />
@@ -58,12 +59,11 @@ class LoginComponent extends Component<IProps, IState> {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          {/* <form className={Styles.form} noValidate> */}
           <form noValidate
             onSubmit={
               (e: FormEvent): AnyAction => {
                 e.preventDefault();
-                return actions.loginClick(state.email, state.password, state.remember);
+                return actions.loginClick(state.user, state.pass, state.remember);
               }
             }
           >
@@ -72,10 +72,10 @@ class LoginComponent extends Component<IProps, IState> {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="user"
+              label="User"
+              name="user"
+              autoComplete="user"
               autoFocus
               onChange={(evt: ChangeEvent<HTMLInputElement>): void => this.handleChange(evt)}
             />
@@ -84,10 +84,10 @@ class LoginComponent extends Component<IProps, IState> {
               margin="normal"
               required
               fullWidth
-              name="password"
+              name="pass"
               label="Password"
               type="password"
-              id="password"
+              id="pass"
               autoComplete="current-password"
               onChange={(evt: ChangeEvent<HTMLInputElement>): void => this.handleChange(evt)}
             />
@@ -106,7 +106,6 @@ class LoginComponent extends Component<IProps, IState> {
               fullWidth
               variant="contained"
               color="primary"
-            // className={Styles.submit}
             >
               Sign In
             </Button>
@@ -165,9 +164,9 @@ interface IProps {
 }
 
 interface IState {
-  email: string;
-  password: string;
-  remember: string;
+  user: string;
+  pass: string;
+  remember: boolean;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(Styles)(LoginComponent));

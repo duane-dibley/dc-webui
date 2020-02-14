@@ -182,8 +182,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        cipherToken = pass;
 	        var uae = _remoting.UserAccessEntity.create(user, pass, clientType, traits);
 	        var http = new XMLHttpRequest();
-	        http.open("POST", conn.url + "/kxlogon", true);
-	        http.setRequestHeader('Content-Type', 'application/json');
+					http.open("POST", conn.url + "/kxlogon", true);
+					/////
+					http.setRequestHeader('Content-Type', 'application/json');
+					//
+					console.log('client changes picked up');
+					http.setRequestHeader("Access-Control-Allow-Origin", "my-authorized-proxy-or-domain");
+					http.setRequestHeader("Access-Control-Allow-Methods", "POST, GET");
+					http.setRequestHeader("Access-Control-Max-Age", "3600");
+					http.setRequestHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+					/////
 	        http.onreadystatechange = function (e) {
 	            if (http.readyState == 4 && http.status == 200) {
 	                var data = JSON.parse(http.responseText);

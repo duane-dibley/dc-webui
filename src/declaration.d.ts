@@ -7,6 +7,8 @@ declare module 'isomorphic-style-loader/withStyles';
 
 declare module '@web' {
 
+  import { Subscribe } from 'redux-saga';
+
   interface IWebClient {
     user(): void;
     systemConfig(): void;
@@ -21,7 +23,19 @@ declare module '@web' {
     post(service: string, result: () => void, fault: () => void): void;
     // Angular BehaviorSubject
     /* eslint-disable-next-line */
-    status: any;
+    status: {
+      CONNECTED: number;
+      CONNECTING: number;
+      EXPIRED: number;
+      FAULT: number;
+      LOGGED_IN: number;
+      LOGGED_OUT: number;
+      RESET: number;
+      RESET_FAIL: number;
+      RESET_SUCCESS: number;
+      // This isn't right **********
+      _subscribe: any;
+    };
     isAuthenticated(): void;
     // TODO - separate IWebClientConnection
     /* eslint-disable-next-line */

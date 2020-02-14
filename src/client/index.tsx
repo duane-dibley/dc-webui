@@ -6,17 +6,18 @@ import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
 
 import App from '@common';
 import rootSaga from '@sagas';
-import AppReducer, { INIT_CLIENT } from '@store';
+import AppReducer /* , { INIT_CLIENT } */ from '@store';
 import { IStore } from '@store-model';
 import { IContext, IIsoStyle } from '@misc';
-import { Client, IWebClient } from '@web';
+// import { Client, IWebClient } from '@web';
 
-const host: string = 'dev1';
-const port: number = 19400;
-const secure: boolean = false;
-const fromURL: boolean = false;
-const useBinary: boolean = false;
-const client: IWebClient = new Client({ host, port, secure, fromURL }, useBinary);
+// Setting in rootSaga for now
+// const host: string = 'dev1';
+// const port: number = 19400;
+// const secure: boolean = false;
+// const fromURL: boolean = false;
+// const useBinary: boolean = false;
+// const client: IWebClient = new Client({ host, port, secure, fromURL }, useBinary);
 
 // Grab the state from a global variable injected into the server-generated HTML
 const initData: IStore = (window as any).INIT_DATA;
@@ -28,8 +29,10 @@ const sagaMiddleware: SagaMiddleware = createSagaMiddleware();
 const store: Store<IStore, AnyAction> = createStore(AppReducer, initData, applyMiddleware(sagaMiddleware));
 // Run Saga
 sagaMiddleware.run(rootSaga);
-// Dispatch event to set client on store
-store.dispatch({ type: INIT_CLIENT, ...client });
+
+// Dispatch event to set client on store - setting in rootSaga for now
+// store.dispatch({ type: INIT_CLIENT, client });
+
 // Set context running through app
 const context: IContext = { insertCss };
 
