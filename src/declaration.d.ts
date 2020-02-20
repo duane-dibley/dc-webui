@@ -89,6 +89,22 @@ declare module '@misc' {
     _insertCss?(): void;
   }
 
-  export { IContext, IIsoStyle };
+  interface IProxyOptions {
+    https: {
+      cert: string;
+      key: string;
+    };
+    local: {
+      port: number;
+    };
+    remote: {
+      port: string;
+      protocol: string;
+      rejectUnauthorized: boolean;
+      uri: string;
+    };
+  }
+
+  export { IContext, IIsoStyle, IProxyOptions };
 
 }

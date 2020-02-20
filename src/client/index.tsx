@@ -55,6 +55,8 @@ function Main(): JSX.Element {
   return <App context={context} store={store} />;
 }
 
+console.log(window);
+
 hydrate(
   <Main />,
   document.getElementById('appdiv')
