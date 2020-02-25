@@ -13,3 +13,6 @@ src/lib
 *.scss
 *.styl
 *.html
+*.js
+*.pem
+*.ejs

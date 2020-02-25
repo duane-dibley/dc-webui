@@ -11,21 +11,22 @@
       "@common": ["src/common"],
       "@components": ["src/common/components"],
       "@hoc": ["src/common/hoc"],
-      // "@kdb": ["src/lib/kdb_4_3_0S5_22475.js"],
       "@routes": ["src/common/routes"],
       "@sagas": ["src/common/sagas"],
       "@store": ["src/common/store"],
       "@styles": ["src/common/styles"],
       "@web": ["src/lib/client_4_3_0S5_22475.js"],
+      "kdb": ["src/lib/kdb_4_3_0S5_22475.js"]
     },
     "sourceMap": true,
     "target": "es6",
   },
   "exclude": [
-    "node_modules",
-    "dist"
+    "dist",
+    "node_modules"
   ],
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "webpack.*.ts"
   ]
 }

@@ -4,19 +4,24 @@ import https from 'https';
 import express, { Application } from 'express';
 import expressws from 'express-ws';
 import bodyParser from 'body-parser';
-import URL from 'url';
+import Url from 'url';
 import path from 'path';
 //
 import url from './url';
 import WsProxy from './ws-proxy';
+//
+import './cert.pem';
+import './key.pem';
 
 if (process.argv.length < 5) {
+  // eslint-disable-next-line
   console.log('Must provide [http | https] [hostname] [port] as parameters');
   //
   // return;
 }
 
-const appDir: string = path.dirname(require.main.filename);
+// const appDir: string = path.dirname(require.main.filename);
+const appDir: string = path.resolve(__dirname);
 
 const params: any = {
   remote: {
@@ -27,13 +32,13 @@ const params: any = {
 
   },
   local: {
-    port: 3000
+    port: 5000
   },
   https: {
     key: path.join(appDir, 'key.pem'),
     cert: path.join(appDir, 'cert.pem')
   },
-  client: '../../dist/public'
+  client: path.join(appDir, 'public')
 };
 
 const AxProxy: any = ((): (opts: any) => void => {
@@ -43,7 +48,7 @@ const AxProxy: any = ((): (opts: any) => void => {
   function AxProxy(opts: any) {
     const options: any = opts || {};
     options.remote = opts.remote || {};
-    options.local = opts.local || { port: 3000 };
+    options.local = opts.local || { port: 5000 };
     options.https = opts.https || {};
 
     this.options = {
@@ -84,6 +89,7 @@ const AxProxy: any = ((): (opts: any) => void => {
 
   AxProxy.ROOT = '/control/';
 
+  // TODO - extending the prototype ?
   AxProxy.prototype.listen = (): any => {
     if ((this as any).listening) {
       this.close();
@@ -120,7 +126,7 @@ const AxProxy: any = ((): (opts: any) => void => {
       headers.host = `${options.remote.uri}:${options.remote.port}`;
       headers.origin = `${options.remote.protocol}://${options.remote.uri}:${options.remote.port}`;
       headers.rejectUnauthorized = false;
-      headers.referer = url(options.remote, URL.parse(req.headers.referer).pathname);
+      headers.referer = url(options.remote, Url.parse(req.headers.referer).pathname);
 
       const r: any = sender.request({
         host: options.remote.uri,
@@ -148,7 +154,7 @@ const AxProxy: any = ((): (opts: any) => void => {
       headers.host = `${options.remote.uri}:${options.remote.port}`;
       headers.origin = `${options.remote.protocol}://${options.remote.uri}:${options.remote.port}`;
       headers.rejectUnauthorized = false;
-      headers.referer = url(options.remote, URL.parse(req.headers.referer).pathname);
+      headers.referer = url(options.remote, Url.parse(req.headers.referer).pathname);
 
       const r: any = sender.request({
         host: options.remote.uri,
@@ -200,7 +206,7 @@ const AxProxy: any = ((): (opts: any) => void => {
       headers.host = `${options.remote.uri}:${options.remote.port}`;
       headers.origin = `${options.remote.protocol}://${options.remote.uri}:${options.remote.port}`;
 
-      headers.referer = url(options.remote, URL.parse(req.headers.referer).pathname);
+      headers.referer = url(options.remote, Url.parse(req.headers.referer).pathname);
       // The following encoding means do not compress or otherwise mess with the content
       headers['accept-encoding'] = 'identity';
 

@@ -7,7 +7,7 @@ declare module 'isomorphic-style-loader/withStyles';
 
 declare module '@web' {
 
-  import { Subscribe } from 'redux-saga';
+  // import { Subscribe } from 'redux-saga';
 
   interface IWebClient {
     user(): void;
@@ -89,6 +89,34 @@ declare module '@misc' {
     _insertCss?(): void;
   }
 
+  // declare module 'AxProxy' {
+
+  // }
+
+  // interface IProxyOptions {
+  //   https: {
+  //     cert: string;
+  //     key: string;
+  //   };
+  //   local: {
+  //     port: number;
+  //   };
+  //   remote: {
+  //     port: string;
+  //     protocol: string;
+  //     rejectUnauthorized: boolean;
+  //     uri: string;
+  //   };
+  // }
+
+  export { IContext, IIsoStyle /* , IProxyOptions */ };
+
+}
+
+declare module 'AxProxy' {
+
+  const listening: boolean;
+
   interface IProxyOptions {
     https: {
       cert: string;
@@ -105,6 +133,6 @@ declare module '@misc' {
     };
   }
 
-  export { IContext, IIsoStyle, IProxyOptions };
+  export { IProxyOptions };
 
 }

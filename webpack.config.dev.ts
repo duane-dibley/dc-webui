@@ -1,4 +1,5 @@
 import autoprefixer from 'autoprefixer';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import { Configuration } from 'webpack';
 import webpackNodeExternals from 'webpack-node-externals';
@@ -65,6 +66,13 @@ const config: Configuration = {
             options: { sourceMap: true }
           }
         ]
+      },
+      {
+        test: /\.(gif|jpe?g|pem|png)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]'
+        },
       }
     ]
   },
@@ -94,12 +102,16 @@ const client: Configuration = {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist/public'),
     sourceMapFilename: '[name].map.js',
-  }
+  },
+  plugins: [new HtmlWebpackPlugin({
+    template: '!!ejs-loader!src/index.ejs',
+    title: 'DC WebUI'
+  })]
 };
 
 const server: Configuration = {
   entry: {
-    server: path.resolve(__dirname, 'src/server/index.tsx')
+    server: path.resolve(__dirname, 'src/server/proxy/index.ts')
   },
   externals: [webpackNodeExternals()],
   node: {

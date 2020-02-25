@@ -7,9 +7,10 @@ import serialize from 'serialize-javascript';
 import { ServerStyleSheets } from '@material-ui/core/styles';
 //
 import App from '@common';
-import { IContext, IIsoStyle, IProxyOptions } from '@misc';
+import { IContext, IIsoStyle } from '@misc';
 import AppReducer, { INIT_SERVER } from '@store';
 import { IStore } from '@store-model';
+import { IProxyOptions } from 'AxProxy';
 //
 import bodyParser from 'body-parser';
 import expressWs from 'express-ws';
@@ -37,7 +38,7 @@ const options: IProxyOptions = {
     uri: process.argv[3]
   },
   local: {
-    port: 3000
+    port: 5000
   },
   https: {
     key: path.join(appDir, 'key.pem'),

@@ -1,4 +1,3 @@
-/* eslint-disable */
 var fs          = require('fs'),
     http        = require('http'),
     https       = require('https'),
@@ -6,7 +5,7 @@ var fs          = require('fs'),
     expressws   = require('express-ws'),
     bodyParser  = require('body-parser'),
     url         = require('./url'),
-    URL         = require('url'),
+    Url         = require('url'),
     path        = require('path'),
     WsProxy     = require('./ws-proxy');
 
@@ -26,14 +25,14 @@ var options = {
 
     },
     local: {
-        port: 3000
+        port: 5000
     },
     https: {
         key: path.join(appDir,'key.pem'),
         cert: path.join(appDir,'cert.pem')
     },
     /////
-    client: '../DeltaControlWebUI/dist'
+    client: path.join(appDir, '../../../dist/public')
 };
 
 var AxProxy = (function () {
@@ -41,7 +40,7 @@ var AxProxy = (function () {
     function AxProxy(options) {
         options        = options || {};
         options.remote = options.remote || {};
-        options.local  = options.local || { port: 3000 };
+        options.local  = options.local || { port: 5000 };
         options.https  = options.https || {};
 
         this.options = {
@@ -80,7 +79,7 @@ var AxProxy = (function () {
         this.listening = false;
     }
 
-    AxProxy.ROOT = '/control/';
+    AxProxy.ROOT = '/editor/';
 
     AxProxy.prototype.listen = function () {
         if (this.listening) {
@@ -116,7 +115,7 @@ var AxProxy = (function () {
             headers.host       = options.remote.uri + ':' + options.remote.port;
             headers.origin     = options.remote.protocol + '://' + options.remote.uri + ':' + options.remote.port;
             headers.rejectUnauthorized = false;
-            headers.referer    = url(options.remote, URL.parse(req.headers.referer).pathname);
+            headers.referer    = url(options.remote, Url.parse(req.headers.referer).pathname);
 
             var r = sender.request({
                 host : options.remote.uri,
@@ -141,7 +140,7 @@ var AxProxy = (function () {
             headers.host       = options.remote.uri + ':' + options.remote.port;
             headers.origin     = options.remote.protocol + '://' + options.remote.uri + ':' + options.remote.port;
             headers.rejectUnauthorized = false;
-            headers.referer    = url(options.remote, URL.parse(req.headers.referer).pathname);
+            headers.referer    = url(options.remote, Url.parse(req.headers.referer).pathname);
 
             var r = sender.request({
                 host : options.remote.uri,
@@ -163,7 +162,7 @@ var AxProxy = (function () {
             res.redirect(AxProxy.ROOT);
         });
 
-        app.use('/control', express.static(options.client, { dotfiles: 'allow' }));
+        app.use('/editor', express.static(options.client, { dotfiles: 'allow' }));
         return app;
     }
 
@@ -186,11 +185,13 @@ var AxProxy = (function () {
 
     function remoteFetch (options, app, resource) {
         app.get(resource, function (req, res) {
+            console.log('hook to app proxy - remoteFetch', { referer: req.headers.referer });
+
             var sender = options.remote.protocol === 'https' ? https : http,
                 headers = req.headers;
             headers.host       = options.remote.uri + ':' + options.remote.port;
             headers.origin     = options.remote.protocol + '://' + options.remote.uri + ':' + options.remote.port;
-            headers.referer    = url(options.remote, URL.parse(req.headers.referer).pathname);
+            headers.referer    = url(options.remote, Url.parse(req.headers.referer).pathname);
             // The following encoding means do not compress or otherwise mess with the content
             headers['accept-encoding'] = 'identity';
             var result = "";

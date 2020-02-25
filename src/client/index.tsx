@@ -1,6 +1,6 @@
 /* eslint-env browser */
 import React, { useEffect } from 'react';
-import { hydrate } from 'react-dom';
+import { hydrate, render } from 'react-dom';
 import { AnyAction, applyMiddleware, createStore, Store } from 'redux';
 import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
 
@@ -55,9 +55,7 @@ function Main(): JSX.Element {
   return <App context={context} store={store} />;
 }
 
-console.log(window);
-
-hydrate(
+render(
   <Main />,
   document.getElementById('appdiv')
 );
