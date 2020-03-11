@@ -27,6 +27,7 @@
   ],
   "include": [
     "src/**/*",
-    "webpack.*.ts"
+    "webpack.*.ts", 
+    // "proxy"
   ]
 }

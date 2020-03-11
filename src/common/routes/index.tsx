@@ -13,7 +13,7 @@ export default function routes(): JSX.Element {
       </Switch>
 
       <Switch>
-        <Route exact path="/login">
+        <Route exact path="/control">
           <LoginRoute />
         </Route>
       </Switch>

@@ -109,25 +109,25 @@ const client: Configuration = {
   })]
 };
 
-const server: Configuration = {
-  entry: {
-    server: path.resolve(__dirname, 'src/server/proxy/index.ts')
-  },
-  externals: [webpackNodeExternals()],
-  node: {
-    __dirname: false,
-    __filename: false,
-  },
-  output: {
-    chunkFilename: '[id].chunk.js',
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-    sourceMapFilename: '[name].map.js',
-  },
-  target: 'node'
-};
+// const server: Configuration = {
+//   entry: {
+//     server: path.resolve(__dirname, 'src/server/proxy/index.ts')
+//   },
+//   externals: [webpackNodeExternals()],
+//   node: {
+//     __dirname: false,
+//     __filename: false,
+//   },
+//   output: {
+//     chunkFilename: '[id].chunk.js',
+//     filename: '[name].bundle.js',
+//     path: path.resolve(__dirname, 'dist'),
+//     sourceMapFilename: '[name].map.js',
+//   },
+//   target: 'node'
+// };
 
 export default [
-  { ...config, ...server },
+  // { ...config, ...server },
   { ...config, ...client }
 ];

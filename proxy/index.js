@@ -14,7 +14,7 @@ if (process.argv.length < 5) {
     // return;
 }
 
-var appDir = path.dirname(require.main.filename);
+var appDir = path.resolve(__dirname, '../dist');
 
 var options = {
     remote: {
@@ -25,14 +25,13 @@ var options = {
 
     },
     local: {
-        port: 5000
+        port: 3000
     },
     https: {
-        key: path.join(appDir,'key.pem'),
-        cert: path.join(appDir,'cert.pem')
+        key: path.join(appDir, 'key.pem'),
+        cert: path.join(appDir, 'cert.pem')
     },
-    /////
-    client: path.join(appDir, '../../../dist/public')
+    client: path.join(appDir, 'public')
 };
 
 var AxProxy = (function () {
@@ -40,7 +39,7 @@ var AxProxy = (function () {
     function AxProxy(options) {
         options        = options || {};
         options.remote = options.remote || {};
-        options.local  = options.local || { port: 5000 };
+        options.local  = options.local || { port: 3000 };
         options.https  = options.https || {};
 
         this.options = {
@@ -79,7 +78,7 @@ var AxProxy = (function () {
         this.listening = false;
     }
 
-    AxProxy.ROOT = '/editor/';
+    AxProxy.ROOT = '/control/';
 
     AxProxy.prototype.listen = function () {
         if (this.listening) {
@@ -162,7 +161,7 @@ var AxProxy = (function () {
             res.redirect(AxProxy.ROOT);
         });
 
-        app.use('/editor', express.static(options.client, { dotfiles: 'allow' }));
+        app.use('/control', express.static(options.client, { dotfiles: 'allow' }));
         return app;
     }
 
@@ -185,8 +184,6 @@ var AxProxy = (function () {
 
     function remoteFetch (options, app, resource) {
         app.get(resource, function (req, res) {
-            console.log('hook to app proxy - remoteFetch', { referer: req.headers.referer });
-
             var sender = options.remote.protocol === 'https' ? https : http,
                 headers = req.headers;
             headers.host       = options.remote.uri + ':' + options.remote.port;

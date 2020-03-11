@@ -1,9 +1,7 @@
 import { AnyAction } from 'redux';
-import { SagaIterator } from 'redux-saga';
-import { all, select, take, takeEvery, takeLatest, TakeEffect } from 'redux-saga/effects';
-import { INIT_CLIENT, LOGIN_CLICK } from '@store';
-import { IStore } from '@store-model';
-import { Client, IWebClient } from '@web';
+import { all, takeLatest } from 'redux-saga/effects';
+import { LOGIN_CLICK } from '@store';
+import { IWebClient } from '@web';
 import setupClient from '../webclient';
 
 /* * * * * * * * * * Client * * * * * * * * * */
@@ -28,9 +26,7 @@ function* loginClick(): Generator {
 
 function* onLoginClick(action: AnyAction): Generator {
   const { user, pass } = action.payload;
-  // const takeRes: TakeEffect = take(LOGIN_CLICK);
-  const test: any = yield client.login(user, pass);
-  console.log();
+  return yield client.login(user, pass);
 }
 
 /* * * * * * * * * * Helpers * * * * * * * * * */
